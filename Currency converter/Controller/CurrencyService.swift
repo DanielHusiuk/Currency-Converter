@@ -13,10 +13,10 @@ protocol CurrencyServiceProtocol {
 
 final class CurrencyService: CurrencyServiceProtocol {
     private let apiManager: ApiManagerProtocol
-    private let cachedCurrency: CurrencyCache
+    private let cachedCurrency: CurrencyCacheProtocol
     private let refreshTimeInterval: TimeInterval = 60 * 60
     
-    init(apiManager: ApiManagerProtocol, cachedCurrency: CurrencyCache = CurrencyCache()) {
+    init(apiManager: ApiManagerProtocol, cachedCurrency: CurrencyCacheProtocol) {
         self.apiManager = apiManager
         self.cachedCurrency = cachedCurrency
     }
@@ -43,7 +43,8 @@ final class CurrencyService: CurrencyServiceProtocol {
         case .failure(let error):
             print(error)
             
-            if let cachedCurrencies = cachedCurrency.loadCurrencies(), let lastFetchDate = cachedCurrency.lastFetchDate {
+            if let cachedCurrencies = cachedCurrency.loadCurrencies(),
+                let lastFetchDate = cachedCurrency.lastFetchDate {
                 return (cachedCurrencies, lastFetchDate)
             }
             return nil

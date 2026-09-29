@@ -20,6 +20,7 @@ final class ViewController: UIViewController {
     
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     
     @IBOutlet weak var firstCurrencyButton: UIButton!
     @IBOutlet weak var secondCurrencyButton: UIButton!
@@ -33,7 +34,10 @@ final class ViewController: UIViewController {
     @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var lastUpdateDateLabel: UILabel!
     
-    private let currencyService: CurrencyServiceProtocol = CurrencyService(apiManager: ApiManager())
+    private let currencyService: CurrencyServiceProtocol = CurrencyService(
+        apiManager: ApiManager(),
+        cachedCurrency: CurrencyCache()
+    )
     private var currencyArray: [CurrencyModel] = []
     
     private var rows: [CurrencyRow] = []
@@ -50,6 +54,7 @@ final class ViewController: UIViewController {
         setupUI()
         setupKeyboardLayout()
         loadCurrency()
+        setupAccessibilityIdentifiers()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -111,7 +116,7 @@ final class ViewController: UIViewController {
     }
     
     private func loadCurrency() {
-        Task {
+        Task { @MainActor in
             guard let result = await currencyService.fetchCurrencyService() else {
                 lastUpdateDateLabel.text = "Немає даних"
                 return
@@ -121,6 +126,20 @@ final class ViewController: UIViewController {
             updateLastUpdateLabel(with: result.date)
             convert(fromRowAt: lastEditedIndex)
         }
+    }
+    
+    private func setupAccessibilityIdentifiers() {
+        sellButton.accessibilityIdentifier = "sellButton"
+        buyButton.accessibilityIdentifier = "buyButton"
+        shareButton.accessibilityIdentifier = "shareButton"
+        
+        firstCurrencyButton.accessibilityIdentifier = "firstCurrencyButton"
+        secondCurrencyButton.accessibilityIdentifier = "secondCurrencyButton"
+        thirdCurrencyButton.accessibilityIdentifier = "thirdCurrencyButton"
+        
+        firstCurrencyTextField.accessibilityIdentifier = "firstCurrencyTextField"
+        secondCurrencyTextField.accessibilityIdentifier = "secondCurrencyTextField"
+        thirdCurrencyTextField.accessibilityIdentifier = "thirdCurrencyTextField"
     }
     
     // MARK: - Actions
@@ -214,12 +233,13 @@ final class ViewController: UIViewController {
             return
         }
         guard let source = currency(at: sourceIndex) else { return }
+        let converter = CurrencyConverter(multiplier: currentMultiplier)
         
         for index in rows.indices where index != sourceIndex {
             guard let target = currency(at: index), target.price != 0 else { continue }
             
-            let pairRate = source.price / target.price * currentMultiplier
-            rows[index].textField.text = String(format: "%.3f", amount * pairRate)
+            let convertedAmount = converter.convertCurrency(amount: amount, from: source, to: target)
+            rows[index].textField.text = String(format: "%.3f", convertedAmount)
         }
     }
     

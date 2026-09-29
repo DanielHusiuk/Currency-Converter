@@ -263,6 +263,7 @@
                         <outlet property="secondCurrencyButton" destination="35t-zo-sk0" id="HU6-wc-XnR"/>
                         <outlet property="secondCurrencyTextField" destination="nF9-yZ-zel" id="SKB-nJ-rNm"/>
                         <outlet property="sellButton" destination="VLH-2R-j7l" id="mnI-xX-0cs"/>
+                        <outlet property="shareButton" destination="7bh-GJ-Q9d" id="ZLQ-1O-7OA"/>
                         <outlet property="thirdCurrencyButton" destination="sug-AA-fD8" id="EaW-ey-bwx"/>
                         <outlet property="thirdCurrencyTextField" destination="pNF-d6-pD1" id="9MA-dr-UJY"/>
                         <segue destination="Wtq-8y-shZ" kind="presentation" identifier="CurrencyListSegue" id="zpl-Ph-SO5"/>
@@ -372,10 +373,10 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

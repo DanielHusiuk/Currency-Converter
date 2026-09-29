@@ -1,8 +1,0 @@
-//
-//  Config.xcconfig
-//  Currency converter
-//
-//  Created by Daniel Husiuk on 15.09.2026.
-//
-
-EXCHANGE_URL = https:/$()/bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json

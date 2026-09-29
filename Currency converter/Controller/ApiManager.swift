@@ -20,7 +20,14 @@ protocol ApiManagerProtocol: AnyObject {
 final class ApiManager: ApiManagerProtocol {
     
     func fetchCurrencyData() async -> Result<[CurrencyResponse], Error> {
-        let urlString = Bundle.main.object(forInfoDictionaryKey: "EXCHANGE_URL") as? String ?? ""
+        let urlString: String
+        
+        if CommandLine.arguments.contains("-testing") {
+            urlString = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json&date=20260928"
+        } else {
+            urlString = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json"
+        }
+        
         guard let url = URL(string: urlString) else {
             return .failure(DataError.invalidData)
         }

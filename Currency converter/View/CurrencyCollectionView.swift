@@ -157,6 +157,7 @@ extension CurrencyCollectionView: UICollectionViewDataSource {
                 cell.accessibilityTraits.remove(.notEnabled)
                 cell.accessories = currency.code == currentCode ? [.checkmark()] : [.disclosureIndicator()]
             }
+            cell.accessibilityIdentifier = "currencyCell_\(currency.code)"
             return cell
         }
 }

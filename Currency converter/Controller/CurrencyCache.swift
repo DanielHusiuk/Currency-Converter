@@ -7,7 +7,13 @@
 
 import Foundation
 
-struct CurrencyCache {
+protocol CurrencyCacheProtocol {
+    var lastFetchDate: Date? { get }
+    func loadCurrencies() -> [CurrencyModel]?
+    func saveCurrencies(_ currencies: [CurrencyModel], date: Date)
+}
+
+struct CurrencyCache: CurrencyCacheProtocol {
     private let currenciesKey = "cachedCurrencies"
     private let dateKey = "lastFetchDate"
     private let defaults: UserDefaults
